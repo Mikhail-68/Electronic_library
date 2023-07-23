@@ -10,6 +10,10 @@
 <div th:text="${'Название: ' + book.getTitle()}"></div>
 <div th:text="${'Автор: ' + book.getAuthor().getName()}"></div>
 <div th:text="${'Год издания: ' + book.getYearPublication()}"></div>
+<br>
+<div th:text="${'Цена: ' + book.getPricePerDay() + ' Р/Сутки'}"></div>
+<div style="color:red" th:text="${'Количество свободных книг: ' + 'ИЗМЕНИТЬ' + ' шт.'}"></div>
+<br>
 
 <form th:action="@{/books/{id}/edit (id=${book.getId()}) }">
     <input type="submit" value="Редактировать">

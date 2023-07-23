@@ -2,7 +2,6 @@ package ru.egorov.electroniclibrary.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.egorov.electroniclibrary.dao.mapper.BookMapper;
 import ru.egorov.electroniclibrary.models.Book;
@@ -30,13 +29,13 @@ public class BookDAO {
     }
 
     public void add(Book book){
-        jdbcTemplate.update("INSERT INTO book (isbn, title, author_id, year_publication, amount) VALUES (?,?,?,?,?)",
-                book.getIsbn(), book.getTitle(), book.getAuthor().getId(), book.getYearPublication(), book.getAmount());
+        jdbcTemplate.update("INSERT INTO book (isbn, title, author_id, year_publication, amount, price_per_day) VALUES (?,?,?,?,?,?)",
+                book.getIsbn(), book.getTitle(), book.getAuthor().getId(), book.getYearPublication(), book.getAmount(), book.getPricePerDay());
     }
 
     public void update(Book book){
-        jdbcTemplate.update("UPDATE book SET isbn=?, title=?, author_id=?, year_publication=?, amount=? WHERE book_id=?",
-                book.getIsbn(), book.getTitle(), book.getAuthor().getId(), book.getYearPublication(), book.getAmount(), book.getId());
+        jdbcTemplate.update("UPDATE book SET isbn=?, title=?, author_id=?, year_publication=?, amount=?, price_per_day=? WHERE book_id=?",
+                book.getIsbn(), book.getTitle(), book.getAuthor().getId(), book.getYearPublication(), book.getAmount(), book.getPricePerDay(), book.getId());
     }
 
     public void delete(int id){

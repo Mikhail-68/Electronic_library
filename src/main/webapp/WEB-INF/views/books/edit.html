@@ -8,7 +8,7 @@
 
 <form th:method="PATCH" th:action="@{/books/{id} (id=${book.getId()}) }" th:object="${book}">
     <label for="isbn">ISBN: </label>
-    <input id="isbn" type="text" th:field="*{isbn}"><br>
+    <input id="isbn" type="number" th:field="*{isbn}"><br>
     <div style="color:red" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}">Error</div>
 
     <label for="title">Название книги: </label>
@@ -24,11 +24,15 @@
     <br>
 
     <label for="year">Год выпуска: </label>
-    <input id="year" type="text" th:field="*{yearPublication}"><br>
+    <input id="year" type="number" th:field="*{yearPublication}"><br>
     <div style="color:red" th:if="${#fields.hasErrors('yearPublication')}" th:errors="*{yearPublication}">Error</div>
 
+    <label for="price">Цена в сутки: </label>
+    <input id="price" type="number" th:field="*{pricePerDay}"><br>
+    <div style="color:red" th:if="${#fields.hasErrors('pricePerDay')}" th:errors="*{pricePerDay}">Error</div>
+
     <label for="amount">Общее количество книг в библиотеке: </label>
-    <input id="amount" type="text" th:field="*{amount}"><br>
+    <input id="amount" type="number" th:field="*{amount}"><br>
     <div style="color:red" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Error</div>
 
     <input type="submit" value="Обновить!">

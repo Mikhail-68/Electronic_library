@@ -7,6 +7,7 @@ public class Book {
     private String title;
     private int yearPublication;
     private int amount;
+    private int pricePerDay;
 
     // references author
     private Author author;
@@ -15,12 +16,13 @@ public class Book {
 
     }
 
-    public Book(int id, String isbn, String title, int yearPublication, int amount) {
+    public Book(int id, String isbn, String title, int yearPublication, int amount, int pricePerDay) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.yearPublication = yearPublication;
         this.amount = amount;
+        this.pricePerDay = pricePerDay;
     }
 
     public int getId() {
@@ -61,6 +63,14 @@ public class Book {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(int pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public Author getAuthor() {
