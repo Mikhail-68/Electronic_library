@@ -23,6 +23,7 @@ public class BookMapper implements RowMapper<Book> {
         book.setYearPublication(rs.getInt("year_publication"));
         book.setAmount(rs.getInt("amount"));
         book.setPricePerDay(rs.getInt("price_per_day"));
+        book.setRemainder(rs.getInt("remainder"));
 
 //        System.out.println(authorDAO);
 

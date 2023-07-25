@@ -8,6 +8,7 @@
 
 <div th:text="${client.getSurname() + ' ' + client.getName() + ', ' + client.getDateOfBirth()}">client info</div>
 <div th:text="${client.getPhone()}">client phone</div>
+<br>
 
 <form th:action="@{/clients/{id}/edit (id=${client.getId()}) }">
     <input type="submit" value="Редактировать">
@@ -16,6 +17,41 @@
 <form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()}) }">
     <input style="color:red" type="submit" value="Удалить!">
 </form>
+
+<br>
+<hr>
+<h3>История взятия книг</h3>
+
+<table th:unless="${#lists.isEmpty(rents)}" border="1" style="border-collapse:collapse;">
+    <tr>
+        <th width="250">Книга</th>
+        <th>Дата взятия</th>
+        <th>Дата возврата</th>
+        <th>Цена/сутки</th>
+        <th>Итого</th>
+    </tr>
+    <form th:method="PATCH" th:action="@{/rents/{id}/edit (id=${rent.id}, typePage='client', pageId=${client.id})}"
+          th:each="rent : ${rents}">
+    <tr>
+        <td>
+            <a th:href="@{/books/{id} (id=${rent.getBook().get().getId()}) }"
+               th:text="${rent.getBook().get().getTitle() + ', ' + rent.getBook().get().getYearPublication()}">
+            </a>
+        </td>
+        <td align="center" th:text="${rent.dateTakeBeg}">date beg</td>
+        <td align="center" th:text="${rent.dateTakeEnd.orElse('-')}">date end</td>
+        <td align="center" th:text="${rent.priceTakingBook} + ' Р'">Price per day</td>
+        <td th:if="${rent.dateTakeEnd.orElse(null)} != null" align="center" th:text="${rent.rentalCost} + ' Р'">Sum price</td>
+        <td th:unless="${rent.dateTakeEnd.orElse(null)} != null" align="center">-</td>
+        <td align="center">
+            <input th:unless="${rent.dateTakeEnd.orElse(null)}" type="submit" value="Освободить">
+        </td>
+    </tr>
+    </form>
+
+</table>
+
+<div th:if="${#lists.isEmpty(rents)}">Клиент пока не брал ни одной книги</div>
 
 </body>
 </html>

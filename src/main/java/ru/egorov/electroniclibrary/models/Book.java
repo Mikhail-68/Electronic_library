@@ -8,8 +8,10 @@ public class Book {
     private int yearPublication;
     private int amount;
     private int pricePerDay;
+    private int remainder;
 
     // references author
+
     private Author author;
 
     public Book() {
@@ -71,6 +73,14 @@ public class Book {
 
     public void setPricePerDay(int pricePerDay) {
         this.pricePerDay = pricePerDay;
+    }
+
+    public int getRemainder() {
+        return remainder;
+    }
+
+    public void setRemainder(int remainder) {
+        this.remainder = remainder;
     }
 
     public Author getAuthor() {

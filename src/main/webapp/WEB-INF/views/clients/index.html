@@ -10,7 +10,7 @@
     <a th:href="@{/clients/{id}(id=${client.getId()})}"
             th:text="${client.getSurname() + ' ' + client.getName() + ' ' + client.getDateOfBirth()}">client</a>
 </div>
-
+<br>
 <form th:method="GET" th:action="@{/clients/new}">
     <input type="submit" value="Добавить клиента">
 </form>

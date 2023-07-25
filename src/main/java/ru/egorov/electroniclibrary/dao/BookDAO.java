@@ -21,11 +21,23 @@ public class BookDAO {
     }
 
     public List<Book> getAll() {
-        return jdbcTemplate.query("SELECT * FROM book ORDER BY title", bookMapper);
+        return jdbcTemplate.query("SELECT book_id, isbn, title, author_id, year_publication, amount, price_per_day, (" +
+            "amount - COUNT(date_take_beg) + COUNT(date_take_end) " +
+            ") AS remainder " +
+            "FROM book LEFT JOIN rent USING(book_id) " +
+            "GROUP BY book_id, amount " +
+            "ORDER BY title",
+            bookMapper);
     }
 
     public Book get(int id) {
-        return jdbcTemplate.query("SELECT * FROM book WHERE book_id=?", bookMapper, id).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT book_id, isbn, title, author_id, year_publication, amount, price_per_day, (" +
+                "amount - COUNT(date_take_beg) + COUNT(date_take_end) " +
+                ") AS remainder " +
+                "FROM book LEFT JOIN rent USING(book_id) " +
+                "WHERE book_id=? " +
+                "GROUP BY book_id, amount " +
+                "ORDER BY title", bookMapper, id).stream().findAny().orElse(null);
     }
 
     public void add(Book book){

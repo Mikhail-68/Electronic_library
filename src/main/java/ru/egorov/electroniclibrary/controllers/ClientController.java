@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.egorov.electroniclibrary.dao.ClientDAO;
+import ru.egorov.electroniclibrary.dao.RentDAO;
 import ru.egorov.electroniclibrary.models.Client;
 import ru.egorov.electroniclibrary.models.Validator.ClientValidator;
 
@@ -16,10 +17,12 @@ public class ClientController {
 
     private final ClientDAO clientDAO;
     private final ClientValidator clientValidator;
+    private final RentDAO rentDAO;
     @Autowired
-    public ClientController(ClientDAO clientDAO, ClientValidator clientValidator) {
+    public ClientController(ClientDAO clientDAO, ClientValidator clientValidator, RentDAO rentDAO) {
         this.clientDAO = clientDAO;
         this.clientValidator = clientValidator;
+        this.rentDAO = rentDAO;
     }
 
     @GetMapping
@@ -31,6 +34,7 @@ public class ClientController {
     @GetMapping("/{id}")
     public String showClientInfo(@PathVariable("id") int id, Model model) {
         model.addAttribute("client", clientDAO.get(id));
+        model.addAttribute("rents", rentDAO.getByClient(id));
         return "clients/client";
     }
 
@@ -53,7 +57,7 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-    // edit
+    // update
 
     @GetMapping("/{id}/edit")
     public String showEditPage(@PathVariable("id") int id, Model model) {
@@ -62,7 +66,8 @@ public class ClientController {
     }
 
     @PatchMapping("/{id}")
-    public String updateClient(@PathVariable("id") int id, @ModelAttribute("client") @Valid Client client,
+    public String updateClient(@PathVariable("id") int id,
+                               @ModelAttribute("client") @Valid Client client,
                                BindingResult bindingResult) {
         if(bindingResult.hasErrors())
             return "/clients/edit";
@@ -71,7 +76,7 @@ public class ClientController {
             return "/clients/edit";
         client.setId(id);
         clientDAO.update(client);
-        return "redirect:/clients";
+        return "redirect:/clients/" + id;
     }
 
     // delete

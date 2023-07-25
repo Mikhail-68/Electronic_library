@@ -10,7 +10,7 @@
     <a th:href="@{/books/{id} (id=${book.getId()}) }"
             th:text="${book.getTitle() + ', ' + book.getAuthor().getName() + ', ' + book.getYearPublication()}">Book info</a>
 </div>
-
+<br>
 <form th:action="@{/books/new}">
     <input type="submit" value="Добавить книгу">
 </form>

@@ -3,6 +3,7 @@ package ru.egorov.electroniclibrary.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.egorov.electroniclibrary.dao.mapper.ClientMapper;
 import ru.egorov.electroniclibrary.models.Client;
 
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class ClientDAO {
 
     private final JdbcTemplate jdbcTemplate;

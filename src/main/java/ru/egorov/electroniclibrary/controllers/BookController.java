@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.egorov.electroniclibrary.dao.AuthorDAO;
 import ru.egorov.electroniclibrary.dao.BookDAO;
+import ru.egorov.electroniclibrary.dao.ClientDAO;
+import ru.egorov.electroniclibrary.dao.RentDAO;
 import ru.egorov.electroniclibrary.models.Book;
 
 @Controller
@@ -13,12 +15,16 @@ import ru.egorov.electroniclibrary.models.Book;
 public class BookController {
 
     private final AuthorDAO authorDAO;
+    private final ClientDAO clientDAO;
     private final BookDAO bookDAO;
+    private final RentDAO rentDAO;
 
     @Autowired
-    public BookController(AuthorDAO authorDAO, BookDAO bookDAO) {
+    public BookController(AuthorDAO authorDAO, ClientDAO clientDAO, BookDAO bookDAO, RentDAO rentDAO) {
         this.authorDAO = authorDAO;
+        this.clientDAO = clientDAO;
         this.bookDAO = bookDAO;
+        this.rentDAO = rentDAO;
     }
 
     @GetMapping
@@ -30,6 +36,8 @@ public class BookController {
     @GetMapping("/{id}")
     public String showInfo(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookDAO.get(id));
+        model.addAttribute("rents", rentDAO.getByBook(id));
+        model.addAttribute("clients", clientDAO.getAll());
         return "books/book";
     }
 
@@ -50,22 +58,23 @@ public class BookController {
     // Update
 
     @GetMapping("/{id}/edit")
-    public String showEditPage(@PathVariable("id") int id, Model model){
+    public String showEditPage(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookDAO.get(id));
         model.addAttribute("authors", authorDAO.getAll());
         return "books/edit";
     }
 
     @PatchMapping("/{id}")
-    public String updateBook(@PathVariable("id") int id, @ModelAttribute("book") Book book){
+    public String updateBook(@PathVariable("id") int id,
+                             @ModelAttribute("book") Book book) {
         bookDAO.update(book);
-        return "redirect:/books";
+        return "redirect:/books/" + id;
     }
 
     // Delete
 
     @DeleteMapping("/{id}")
-    public String deleteBook(@PathVariable("id") int id){
+    public String deleteBook(@PathVariable("id") int id) {
         bookDAO.delete(id);
         return "redirect:/books";
     }
