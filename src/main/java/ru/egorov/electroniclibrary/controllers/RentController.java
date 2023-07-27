@@ -3,6 +3,7 @@ package ru.egorov.electroniclibrary.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.egorov.electroniclibrary.dao.BookDAO;
 import ru.egorov.electroniclibrary.dao.RentDAO;
 
 @Controller
@@ -10,16 +11,20 @@ import ru.egorov.electroniclibrary.dao.RentDAO;
 public class RentController {
 
     private final RentDAO rentDAO;
+    private final BookDAO bookDAO;
 
     @Autowired
-    public RentController(RentDAO rentDAO) {
+    public RentController(RentDAO rentDAO, BookDAO bookDAO) {
         this.rentDAO = rentDAO;
+        this.bookDAO = bookDAO;
     }
 
     @PostMapping("/new")
     public String createRent(@RequestParam("clientSelect")int clientId,
                              @RequestParam("book") int bookId) {
-        rentDAO.add(clientId, bookId);
+        if(bookDAO.get(bookId).getRemainder() > 0)
+            rentDAO.add(clientId, bookId);
+        else throw new RuntimeException("This book missing in database");
         return "redirect:/books/" + bookId;
     }
 
