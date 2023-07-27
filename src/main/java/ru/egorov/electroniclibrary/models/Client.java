@@ -1,9 +1,6 @@
 package ru.egorov.electroniclibrary.models;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -11,18 +8,18 @@ import java.time.format.DateTimeFormatter;
 
 public class Client {
     private int id;
-    @NotEmpty(message = "Имя не должно быть пустое")
+    @NotBlank(message = "Имя не должно быть пустое")
     @Size(min = 2, max = 50, message = "Длина имени должна быть в промежутке от 2 до 50 символов")
     @Pattern(regexp = "\\D{2,50}", message = "Имя должно состоять из букв")
     private String name;
-    @NotEmpty(message = "Фамилия не должна быть пустой")
+    @NotBlank(message = "Фамилия не должна быть пустой")
     @Size(min = 2, max = 50, message = "Длина фамилии должна быть в промежутке от 2 до 50 символов")
     @Pattern(regexp = "\\D{2,50}", message = "Фамилия должна состоять из букв")
     private String surname;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Дата не должна быть пустой")
     private LocalDate dateOfBirth;
-    @NotEmpty(message = "Телефон не должен быть пустым")
+    @NotBlank(message = "Телефон не должен быть пустым")
     @Pattern(regexp = "\\d{1}\\s{1}[(]{1}\\d{3}[)]{1}\\s{1}\\d{3}[-]{1}\\d{2}[-]{1}\\d{2}",
             message = "Телефон должен соответствовать формату: \"x (xxx) xxx-xx-xx\"")
     private String phone;
