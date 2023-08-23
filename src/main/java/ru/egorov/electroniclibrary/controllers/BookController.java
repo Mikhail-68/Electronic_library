@@ -87,12 +87,12 @@ public class BookController {
                              Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorDAO.getAll());
-            return "books/new";
+            return "books/edit";
         }
         bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", authorDAO.getAll());
-            return "books/new";
+            return "books/edit";
         }
         bookDAO.update(book);
         return "redirect:/books/" + id;
