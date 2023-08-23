@@ -1,2 +1,2 @@
-**Electronic Library**
+**Electronic Library JDBC**
 -
